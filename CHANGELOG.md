@@ -1,3 +1,5 @@
+## 3.0.1
+升级：升级 android  JPush 5.2.2
 ## 3.0.0
 + 适配flutter3.x, 
 + 升级：升级 iOS SDK JCore4.6.2， JPush 5.2.4
