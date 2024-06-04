@@ -22,7 +22,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
+import cn.jpush.android.data.JPushConfig;
 import cn.jiguang.api.JCoreInterface;
 import cn.jiguang.api.utils.JCollectionAuth;
 import cn.jpush.android.api.JPushInterface;
@@ -236,8 +236,14 @@ public class JPushPlugin implements FlutterPlugin, MethodCallHandler, ActivityAw
         HashMap<String, Object> map = call.arguments();
         boolean debug = (boolean) map.get("debug");
         JPushInterface.setDebugMode(debug);
-
-        JPushInterface.init(context);            // 初始化 JPush
+        String appKey = (String) map.get("appKey");
+        if(!TextUtils.isEmpty(appKey)){
+            JPushConfig config=new JPushConfig();
+            config.setjAppKey(appKey);
+            JPushInterface.init(context,config);
+        }else {
+            JPushInterface.init(context);
+        }            // 初始化 JPush
         JPushInterface.setNotificationCallBackEnable(context, true);
         String channel = (String) map.get("channel");
         JPushInterface.setChannel(context, channel);
