@@ -58,6 +58,11 @@ class _MyAppState extends State<MyApp> {
         setState(() {
           debugLable = "flutter onInAppMessageShow: $message";
         });
+      }, onCommandResult: (Map<String, dynamic> message) async {
+        print("flutter onCommandResult: $message");
+        setState(() {
+          debugLable = "flutter onCommandResult: $message";
+        });
       }, onInAppMessageClick: (Map<String, dynamic> message) async {
         print("flutter onInAppMessageClick: $message");
         setState(() {

@@ -1,6 +1,7 @@
 package com.jiguang.jpush;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.TextUtils;
@@ -11,6 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import cn.jpush.android.api.CmdMessage;
 import cn.jpush.android.api.JPushInterface;
 import cn.jpush.android.api.NotificationMessage;
 import io.flutter.plugin.common.MethodCall;
@@ -24,6 +26,7 @@ public class JPushHelper {
 
     private boolean dartIsReady = false;
     private boolean jpushDidinit = false;
+    private Handler mHandler;
 
     private List<Result> getRidCache = new ArrayList<>();
     private Context context;
@@ -59,12 +62,18 @@ public class JPushHelper {
     }
 
 
+    public Handler getHandler(){
+        if(mHandler==null){
+            mHandler= new Handler(Looper.getMainLooper());
+        }
+        return mHandler;
+    }
     public void setMethodChannel(MethodChannel channel) {
         this.channel = channel;
     }
-
     public void setContext(Context context) {
         this.context = context;
+        mHandler= new Handler(Looper.getMainLooper());
     }
 
     public void setDartIsReady(boolean isReady) {
@@ -147,6 +156,19 @@ public class JPushHelper {
         }
     }
 
+    public  void onCommandResult( CmdMessage cmdMessage) {
+        Log.e(TAG,"[onCommandResult] message:"+cmdMessage);
+        if (channel==null) {
+            Log.d("JPushPlugin", "the channel is null");
+            return;
+        }
+        Map<String, Object> notification= new HashMap<>();
+        notification.put("cmd", cmdMessage.cmd);
+        notification.put("errorCode", cmdMessage.errorCode);
+        notification.put("msg", cmdMessage.msg);
+        notification.put("extras", getExtras(cmdMessage));
+        channel.invokeMethod("onCommandResult", notification);
+    }
     public  void onNotifyMessageUnShow( NotificationMessage notificationMessage) {
         Log.e(TAG,"[onNotifyMessageUnShow] message:"+notificationMessage);
         if (channel==null) {
@@ -201,6 +223,17 @@ public class JPushHelper {
     }
 
 
+    private  Map<String,Object> getExtras(CmdMessage cmdMessage){
+        Map<String, Object> extras= new HashMap<>();
+        try {
+            Bundle extra = cmdMessage.extra;
+            for (String key : extra.keySet()) {
+                extras.put(key, extra.get(key));
+            }
+        }catch (Throwable throwable){
+        }
+        return extras;
+    }
     private  Map<String,Object> getExtras(NotificationMessage notificationMessage){
         Map<String, Object> extras= new HashMap<>();
         try {
@@ -256,8 +289,7 @@ public class JPushHelper {
     // 主线程再返回数据
     public void runMainThread(final Map<String, Object> map, final Result result, final String method) {
         Log.d(TAG, "runMainThread:" + "map = " + map + ",method =" + method);
-        android.os.Handler handler = new Handler(Looper.getMainLooper());
-        handler.post(new Runnable() {
+        getHandler().post(new Runnable() {
             @Override
             public void run() {
                 if (result == null && method != null) {
