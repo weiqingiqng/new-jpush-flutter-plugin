@@ -1,3 +1,6 @@
+## 3.0.2
+1、开放onCommandResult 接口回调
+2、升级适配gradle 7.5
 ## 3.0.1
 升级：升级 android  JPush 5.2.2
 ## 3.0.0
