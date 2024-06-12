@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-  package="com.jiguang.jpush">
+  >
     <application>
         <receiver
             android:name="com.jiguang.jpush.JPushPlugin$JPushReceiver"
