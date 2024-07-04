@@ -79,12 +79,53 @@ class JPush {
     _channel.invokeMethod('setAuth', {'enable': enable});
   }
 
-  void setLbsEnable({bool enable = true}) {
+  void setLinkMergeEnable({bool enable = true}) {
     if (Platform.isIOS) {
       return;
     }
-    print(flutter_log + "setLbsEnable:");
-    _channel.invokeMethod('setLbsEnable', {'enable': enable});
+    print(flutter_log + "setLinkMergeEnable:");
+    _channel.invokeMethod('setLinkMergeEnable', {'enable': enable});
+  }
+
+  void setGeofenceEnable({bool enable = true}) {
+    if (Platform.isIOS) {
+      return;
+    }
+    print(flutter_log + "setGeofenceEnable:");
+    _channel.invokeMethod('setGeofenceEnable', {'enable': enable});
+  }
+
+  void setSmartPushEnable({bool enable = true}) {
+    if (Platform.isIOS) {
+      return;
+    }
+    print(flutter_log + "setSmartPushEnable:");
+    _channel.invokeMethod('setSmartPushEnable', {'enable': enable});
+  }
+
+  void setCollectControl({
+    bool imsi = true,
+    bool mac = true,
+    bool wifi = true,
+    bool bssid = true,
+    bool ssid = true,
+    bool imei = true,
+    bool cell = true,
+  }) {
+    if (Platform.isIOS) {
+      return;
+    }
+    print(flutter_log + "setCollectControl:");
+
+    _channel.invokeMethod('setCollectControl', {
+      'imsi': imsi,
+      'mac': mac,
+      'wifi': wifi,
+      'bssid': bssid,
+      'ssid': ssid,
+      'imei': imei,
+      'cell': cell
+    });
   }
 
   ///
