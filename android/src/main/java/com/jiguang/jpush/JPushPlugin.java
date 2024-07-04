@@ -27,6 +27,7 @@ import cn.jiguang.api.JCoreInterface;
 import cn.jiguang.api.utils.JCollectionAuth;
 import cn.jpush.android.api.JPushInterface;
 import cn.jpush.android.api.NotificationMessage;
+import cn.jpush.android.data.JPushCollectControl;
 import cn.jpush.android.data.JPushLocalNotification;
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
 import io.flutter.plugin.common.MethodCall;
@@ -139,8 +140,14 @@ public class JPushPlugin implements FlutterPlugin, MethodCallHandler, ActivityAw
             testCountryCode(call, result);
         }else if (call.method.equals("enableAutoWakeup")) {
             enableAutoWakeup(call, result);
-        } else if (call.method.equals("setLbsEnable")) {
-            setLbsEnable(call, result);
+        } else if (call.method.equals("setLinkMergeEnable")) {
+            setLinkMergeEnable(call, result);
+        } else if (call.method.equals("setGeofenceEnable")) {
+            setGeofenceEnable(call, result);
+        } else if (call.method.equals("setSmartPushEnable")) {
+            setSmartPushEnable(call, result);
+        }else if (call.method.equals("setCollectControl")) {
+            setCollectControl(call, result);
         }else if (call.method.equals("setChannelAndSound")) {
             setChannelAndSound(call, result);
         }else if (call.method.equals("requestRequiredPermission")) {
@@ -177,7 +184,7 @@ public class JPushPlugin implements FlutterPlugin, MethodCallHandler, ActivityAw
         }catch (Throwable throwable){
         }
     }
-    private void setLbsEnable(MethodCall call, Result result) {
+    private void setLinkMergeEnable(MethodCall call, Result result) {
         HashMap<String, Object> map = call.arguments();
         if (map == null) {
             return;
@@ -186,7 +193,75 @@ public class JPushPlugin implements FlutterPlugin, MethodCallHandler, ActivityAw
         if (enable == null) {
             enable = true;
         }
-        JPushInterface.setLbsEnable(context,enable);
+        JPushInterface.setLinkMergeEnable(context,enable);
+    }
+    private void setGeofenceEnable(MethodCall call, Result result) {
+        HashMap<String, Object> map = call.arguments();
+        if (map == null) {
+            return;
+        }
+        Boolean enable = (Boolean) map.get("enable");
+        if (enable == null) {
+            enable = true;
+        }
+        JPushInterface.setGeofenceEnable(context,enable);
+    }
+    private void setSmartPushEnable(MethodCall call, Result result) {
+        HashMap<String, Object> map = call.arguments();
+        if (map == null) {
+            return;
+        }
+        Boolean enable = (Boolean) map.get("enable");
+        if (enable == null) {
+            enable = true;
+        }
+        JPushInterface.setSmartPushEnable(context,enable);
+    }
+    private void setCollectControl(MethodCall call, Result result) {
+        HashMap<String, Object> map = call.arguments();
+        if (map == null) {
+            return;
+        }
+        JPushCollectControl.Builder builder=new JPushCollectControl.Builder();
+        boolean hadValue=false;
+        if(map.containsKey("imsi")){
+            Boolean imsi = (Boolean) map.get("imsi");
+            builder.imsi(imsi);
+            hadValue=true;
+        }
+        if(map.containsKey("mac")){
+            Boolean mac = (Boolean) map.get("mac");
+            builder.mac(mac);
+            hadValue=true;
+        }
+        if(map.containsKey("wifi")){
+            Boolean wifi = (Boolean) map.get("wifi");
+            builder.wifi(wifi);
+            hadValue=true;
+        }
+        if(map.containsKey("bssid")){
+            Boolean bssid = (Boolean) map.get("bssid");
+            builder.bssid(bssid);
+            hadValue=true;
+        }
+        if(map.containsKey("ssid")){
+            Boolean ssid = (Boolean) map.get("ssid");
+            builder.ssid(ssid);
+            hadValue=true;
+        }
+        if(map.containsKey("imei")){
+            Boolean imei = (Boolean) map.get("imei");
+            builder.imei(imei);
+            hadValue=true;
+        }
+        if(map.containsKey("cell")){
+            Boolean cell = (Boolean) map.get("cell");
+            builder.cell(cell);
+            hadValue=true;
+        }
+        if(hadValue){
+            JPushInterface.setCollectControl(context,builder.build());
+        }
     }
 
     private void setAuth(MethodCall call, Result result){
