@@ -171,13 +171,21 @@ static NSMutableArray<FlutterResult>* getRidResults;
         [self pageEnterTo:call];
     } else if ([@"pageLeave" isEqualToString:call.method]) {
         [self pageLeave:call];
+    } else if ([@"setCollectControl" isEqualToString:call.method]) {
+        [self setCollectControl:call result:result];
     } else{
         result(FlutterMethodNotImplemented);
     }
 }
 
 
-
+- (void)setCollectControl:(FlutterMethodCall*)call result:(FlutterResult)result {
+    JPLog(@"setCollectControl:%@",call.arguments);
+    BOOL gps = [call.arguments[@"gps"] boolValue];
+    JPushCollectControl *control = [[JPushCollectControl alloc] init];
+    control.gps = gps;
+    [JPUSHService setCollectControl:control];
+}
 
 - (void)setup:(FlutterMethodCall*)call result:(FlutterResult)result {
     JPLog(@"setup:");
