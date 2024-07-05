@@ -104,17 +104,15 @@ class JPush {
   }
 
   void setCollectControl({
-    bool imsi = true,
-    bool mac = true,
-    bool wifi = true,
-    bool bssid = true,
-    bool ssid = true,
-    bool imei = true,
-    bool cell = true,
+    bool imsi = true, // only android
+    bool mac = true, // only android
+    bool wifi = true, // only android
+    bool bssid = true, // only android
+    bool ssid = true, // only android
+    bool imei = true, // only android
+    bool cell = true, // only android
+    bool gps = true, // only ios
   }) {
-    if (Platform.isIOS) {
-      return;
-    }
     print(flutter_log + "setCollectControl:");
 
     _channel.invokeMethod('setCollectControl', {
@@ -124,7 +122,8 @@ class JPush {
       'bssid': bssid,
       'ssid': ssid,
       'imei': imei,
-      'cell': cell
+      'cell': cell,
+      'gps': gps
     });
   }
 
