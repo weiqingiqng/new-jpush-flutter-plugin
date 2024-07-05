@@ -1,3 +1,7 @@
+## 2.5.3
+1、升级 iOS SDK JPush 5.3.0, 升级 android  JPush 5.4.0
+2、开放 setLinkMergeEnable、setGeofenceEnable、setSmartPushEnable、setCollectControl 接口设置
+3、删除 setLbsEnable 接口设置
 ## 2.5.2
 开放支持动态设置appkey 
 ## 2.5.1
