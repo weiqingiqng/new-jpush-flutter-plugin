@@ -1,3 +1,7 @@
+## 3.0.4
+1、升级 iOS SDK JPush 5.3.0, 升级 android  JPush 5.4.0
+2、开放 setLinkMergeEnable、setGeofenceEnable、setSmartPushEnable、setCollectControl 接口设置
+3、删除 setLbsEnable 接口设置
 ## 3.0.3
 1、开放onCommandResult 接口回调
 2、升级适配gradle 7.5
