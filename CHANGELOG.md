@@ -1,3 +1,5 @@
+## 3.0.5
+1、修复BUG
 ## 3.0.4
 1、升级 iOS SDK JPush 5.3.0, 升级 android  JPush 5.4.0
 2、开放 setLinkMergeEnable、setGeofenceEnable、setSmartPushEnable、setCollectControl 接口设置
