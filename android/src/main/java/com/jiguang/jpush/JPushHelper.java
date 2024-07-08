@@ -166,7 +166,7 @@ public class JPushHelper {
         notification.put("cmd", cmdMessage.cmd);
         notification.put("errorCode", cmdMessage.errorCode);
         notification.put("msg", cmdMessage.msg);
-        notification.put("extras", getExtras(cmdMessage));
+//        notification.put("extras", getExtras(cmdMessage));
         channel.invokeMethod("onCommandResult", notification);
     }
     public  void onNotifyMessageUnShow( NotificationMessage notificationMessage) {
