@@ -59,6 +59,9 @@ class JPush {
 
   //APP活跃在前台时是否展示通知
   void setUnShowAtTheForeground({bool unShow = false}) {
+    if (Platform.isAndroid) {
+      return;
+    }
     print(flutter_log + "setUnShowAtTheForeground:");
     _channel.invokeMethod('setUnShowAtTheForeground', {'UnShow': unShow});
   }
