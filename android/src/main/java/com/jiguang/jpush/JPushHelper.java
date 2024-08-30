@@ -7,6 +7,7 @@ import android.os.Looper;
 import android.text.TextUtils;
 import android.util.Log;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -29,9 +30,9 @@ public class JPushHelper {
     private Handler mHandler;
 
     private List<Result> getRidCache = new ArrayList<>();
-    private Context context;
     private MethodChannel channel;
     private Map<Integer, Result> callbackMap = new HashMap<>();
+    private WeakReference<Context> mContext;
     private JPushHelper() {
     }
     private static final class SingleHolder {
@@ -62,9 +63,9 @@ public class JPushHelper {
     }
 
 
-    public Handler getHandler(){
-        if(mHandler==null){
-            mHandler= new Handler(Looper.getMainLooper());
+    public Handler getHandler() {
+        if (mHandler == null) {
+            mHandler = new Handler(Looper.getMainLooper());
         }
         return mHandler;
     }
@@ -72,8 +73,12 @@ public class JPushHelper {
         this.channel = channel;
     }
     public void setContext(Context context) {
-        this.context = context;
-        mHandler= new Handler(Looper.getMainLooper());
+        if (mContext != null) {
+            mContext.clear();
+            mContext = null;
+        }
+        mContext = new WeakReference<>(context.getApplicationContext());
+        mHandler = new Handler(Looper.getMainLooper());
     }
 
     public void setDartIsReady(boolean isReady) {
@@ -103,8 +108,11 @@ public class JPushHelper {
     }
 
     public void dispatchRid() {
+        if (mContext == null || mContext.get() == null) {
+            return;
+        }
         List<Object> tempList = new ArrayList<Object>();
-        String rid = JPushInterface.getRegistrationID(context);
+        String rid = JPushInterface.getRegistrationID(mContext.get());
         boolean ridAvailable = rid != null && !rid.isEmpty();
         if (ridAvailable && dartIsReady) {
             // try to schedule get rid cache
