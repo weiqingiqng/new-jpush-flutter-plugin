@@ -1,3 +1,5 @@
+## 3.0.8
+1、iOS本地通知新增onReceiveNotification回调
 ## 3.0.7
 1、修复BUG
 ## 3.0.6
