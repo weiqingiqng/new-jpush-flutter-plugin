@@ -1,3 +1,5 @@
+## 3.0.9
+1、升级 iOS SDK JPush 5.4.0 +JCore 4.8.0, 升级 android  JPush 5.5.0 +JCore 4.8.0
 ## 3.0.8
 1、iOS本地通知新增onReceiveNotification回调
 ## 3.0.7
