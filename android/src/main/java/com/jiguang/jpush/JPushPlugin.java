@@ -23,6 +23,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import cn.jiguang.api.JCoreManager;
 import cn.jpush.android.data.JPushConfig;
 import cn.jiguang.api.JCoreInterface;
 import cn.jiguang.api.utils.JCollectionAuth;
@@ -129,6 +131,8 @@ public class JPushPlugin implements FlutterPlugin, MethodCallHandler, ActivityAw
             sendLocalNotification(call, result);
         } else if (call.method.equals("setBadge")) {
             setBadge(call, result);
+        } else if (call.method.equals("setHBInterval")) {
+            setHBInterval(call, result);
         } else if (call.method.equals("isNotificationEnabled")) {
             isNotificationEnabled(call, result);
         } else if (call.method.equals("openSettingsForNotification")) {
@@ -159,6 +163,19 @@ public class JPushPlugin implements FlutterPlugin, MethodCallHandler, ActivityAw
     }
     public void requestRequiredPermission(MethodCall call, Result result){
         JPushInterface.requestRequiredPermission(mActivity);
+    }
+    public void setHBInterval(MethodCall call, Result result){
+        HashMap<String, Object> map = call.arguments();
+        Object numObject = map.get("hb_interval");
+        if (numObject != null) {
+            int num = (int) numObject;
+            Bundle bundle = new Bundle();
+            // 设置心跳30s，心跳间隔默认是4min50s
+            bundle.putInt("heartbeat_interval", num);
+            JCoreManager.setSDKConfigs(context, bundle);
+        }
+
+
     }
     public void setChannelAndSound(MethodCall call, Result result) {
         HashMap<String, Object> readableMap = call.arguments();

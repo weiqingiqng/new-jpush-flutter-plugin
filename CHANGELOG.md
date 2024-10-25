@@ -1,3 +1,5 @@
+## 3.1.0
+开放Android setHBInterval 接口
 ## 3.0.9
 1、升级 iOS SDK JPush 5.4.0 +JCore 4.8.0, 升级 android  JPush 5.5.0 +JCore 4.8.0
 ## 3.0.8
