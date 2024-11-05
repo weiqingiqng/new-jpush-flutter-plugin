@@ -1,7 +1,8 @@
 import 'dart:async';
+import 'dart:io' show Platform;
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
-import 'dart:io' show Platform;
 
 typedef Future<dynamic> EventHandler(Map<String, dynamic> event);
 
@@ -55,6 +56,14 @@ class JPush {
 
     _channel.invokeMethod('setChannelAndSound',
         {'channel': channel, 'channel_id': channelID, 'sound': sound});
+  }
+
+  void setThirdToken({String token = ''}) {
+    if (Platform.isIOS) {
+      return;
+    }
+    print(flutter_log + "setThirdToken:");
+    _channel.invokeMethod('setThirdToken', {'third_token': token});
   }
 
   //APP活跃在前台时是否展示通知
@@ -355,6 +364,7 @@ class JPush {
 
     await _channel.invokeMethod('setBadge', {"badge": badge});
   }
+
   Future setHBInterval(int hbinterval) async {
     if (Platform.isIOS) {
       return;

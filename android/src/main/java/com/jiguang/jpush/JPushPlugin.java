@@ -157,6 +157,8 @@ public class JPushPlugin implements FlutterPlugin, MethodCallHandler, ActivityAw
             setChannelAndSound(call, result);
         }else if (call.method.equals("requestRequiredPermission")) {
             requestRequiredPermission(call, result);
+        }else if (call.method.equals("setThirdToken")) {
+            setThirdToken(call, result);
         } else {
             result.notImplemented();
         }
@@ -176,6 +178,14 @@ public class JPushPlugin implements FlutterPlugin, MethodCallHandler, ActivityAw
         }
 
 
+    }
+    public void setThirdToken(MethodCall call, Result result) {
+        HashMap<String, Object> readableMap = call.arguments();
+        if (readableMap == null) {
+            return;
+        }
+        String token = (String)readableMap.get("third_token");
+        JPushInterface.setThirdToken(context,token);
     }
     public void setChannelAndSound(MethodCall call, Result result) {
         HashMap<String, Object> readableMap = call.arguments();

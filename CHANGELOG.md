@@ -1,3 +1,5 @@
+## 3.1.1
+开放Android setThirdToken 接口
 ## 3.1.0
 开放Android setHBInterval 接口
 ## 3.0.9
