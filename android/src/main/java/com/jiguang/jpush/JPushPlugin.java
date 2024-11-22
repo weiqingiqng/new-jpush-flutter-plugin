@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -579,15 +580,35 @@ public class JPushPlugin implements FlutterPlugin, MethodCallHandler, ActivityAw
             Map<String, Object> extrasMap = new HashMap<String, Object>();
             Bundle extras = intent.getExtras();
             for (String key : extras.keySet()) {
+                Object value = extras.get(key);
                 if (!IGNORED_EXTRAS_KEYS.contains(key)) {
                     if (key.equals(JPushInterface.EXTRA_NOTIFICATION_ID)) {
                         extrasMap.put(key, intent.getIntExtra(key, 0));
+                    }else if(key.equals("cn.jpush.android.EXTRA")){
+                        try {
+                            JSONObject object=new JSONObject((String)value);
+                            Map<String, Object> useExtra = new HashMap<String, Object>();
+                            jsonToMap(object,useExtra);
+                            extrasMap.put(key,useExtra);
+                        }catch (Throwable throwable){
+                        }
                     } else {
-                        extrasMap.put(key, extras.get(key));
+                        extrasMap.put(key, value);
                     }
                 }
             }
             return extrasMap;
+        }
+        public static void jsonToMap(JSONObject object,Map<String, Object> map) {
+            try {
+                Iterator<String> keys = object.keys();
+                while (keys.hasNext()) {
+                    String key = keys.next();
+                    Object value = object.get(key);
+                    map.put(key, value);
+                }
+            }catch (Throwable throwable){
+            }
         }
     }
 
