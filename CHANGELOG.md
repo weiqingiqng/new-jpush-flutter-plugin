@@ -1,3 +1,5 @@
+## 3.1.2
+修复在map中且套map不能获取数据问题
 ## 3.1.1
 开放Android setThirdToken 接口
 ## 3.1.0
